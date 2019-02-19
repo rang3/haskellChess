@@ -6,7 +6,7 @@ module Board
     , getPieceAt
     , initialGame
     , initialBoard
-    , move
+    , executeMove
     ) where
 
 import Pieces
@@ -82,15 +82,15 @@ editList :: [a] -> Int -> a -> [a]
 editList xs idx elem = take idx xs ++ [elem] ++ drop (idx + 1) xs
 
 
-move :: Move -> State Game ()
-move m = do currentState <- get
-            let oldMoveHistory = moveHistory currentState
-            let currentBoard = board currentState
-            let nextBoard = execState (movePiece m) currentBoard
-            put currentState {    moveHistory = (m : oldMoveHistory)
-                                , turn = switchColor $ turn currentState
-                                , board = execState (movePiece m) $ board currentState
-                             }
+executeMove :: Move -> State Game ()
+executeMove m = do currentState <- get
+                   let oldMoveHistory = moveHistory currentState
+                   let currentBoard = board currentState
+                   let nextBoard = execState (movePiece m) currentBoard
+                   put currentState {    moveHistory = (m : oldMoveHistory)
+                                       , turn = switchColor $ turn currentState
+                                       , board = execState (movePiece m) $ board currentState
+                                    }
 
 --edit for array
 movePiece :: Move -> State Board ()
