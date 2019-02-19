@@ -1,11 +1,11 @@
 module Board
     ( Board(..)
     , Move(..)
+    , Game(..)
     , Coordinate(..)
     , getPieceAt
     , initialGame
     , initialBoard
-    , getPieceCoordinates
     , move
     ) where
 
@@ -27,7 +27,7 @@ data Game = StandardGame
     }
     deriving (Eq, Show)
 
-data Move = Move Coordinate Coordinate
+data Move = Move Coordinate Coordinate 
     deriving (Eq, Show)
 
 data Coordinate = Coordinate Int Int
@@ -66,30 +66,18 @@ initialGame = StandardGame
     , moveHistory = []
     }
 
-getPieceCoordinates :: Board -> Color -> [Coordinate]
-getPieceCoordinates b c = aux b c 0 0 []
-    where aux b c 8 7 cs = cs
-          aux b c f r cs | f == 8 = aux b c 0 (r+1) cs
-                         | otherwise = 
-                         case getPieceAt b (Coordinate f r) of  
-                           NoPiece ->
-                             aux b c (f+1) r cs
-                           Piece _ pc -> 
-                             if pc == c 
-                             then 
-                               aux b c (f+1) r ((Coordinate f r):cs)
-                             else
-                                aux b c (f+1) r cs
-
+--edit for array
 getPieceAt :: Board -> Coordinate -> Piece
 getPieceAt (Board g) (Coordinate f r) = 
     (g !! (7 - r)) !! f
 
+--edit for array
 setPiece :: Board -> Piece -> Coordinate -> Board
 setPiece (Board g) p (Coordinate f r) =
     Board $ editList g (7-r) row
         where row = editList (g !! (7-r)) f p
     
+--remove for array
 editList :: [a] -> Int -> a -> [a]
 editList xs idx elem = take idx xs ++ [elem] ++ drop (idx + 1) xs
 
@@ -104,6 +92,7 @@ move m = do currentState <- get
                                 , board = execState (movePiece m) $ board currentState
                              }
 
+--edit for array
 movePiece :: Move -> State Board ()
 movePiece (Move c1 c2) = 
     do currBoard <- get
@@ -111,20 +100,11 @@ movePiece (Move c1 c2) =
        setSquare c1 na
        setSquare c2 currPiece
 
+--edit for array
 setSquare :: Coordinate -> Piece -> State Board ()
 setSquare c p =
     do board <- get
        put $ setPiece board p c
 
-
-getLegalMoves :: Board -> Color -> [Move]
-getLegalMoves = undefined
-
-getAttackedSquares :: Board -> Color -> [Coordinate]
-getAttackedSquares = undefined
-
 --TODO
---implement show for pieces
 --use vector or array for grid representation
---implement monad for board and game container
---tests
