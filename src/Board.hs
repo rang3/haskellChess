@@ -11,7 +11,7 @@ module Board
 
 import Pieces
 import Control.Monad.State.Lazy
-import Data.Char(ord,chr)
+import Data.Char (ord, chr)
 
 newtype Board = Board { grid :: [[Piece]] }
     deriving Eq
@@ -32,14 +32,14 @@ data Move = Move Coordinate Coordinate
     deriving (Eq)
 
 instance Show Move where
-  show (Move x y) = (show x) ++ "->" ++ (show y)
+  show (Move x y) = (show x) ++ "-" ++ (show y)
 
 data Coordinate = Coordinate Int Int
     deriving (Eq)
 
 instance Show Coordinate where
   show (Coordinate x y) = let row = chr(ord 'a'+x)
-                              rank = show y
+                              rank = show (y+1)
                           in row:rank
 
 bp = Piece Pawn Black
