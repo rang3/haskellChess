@@ -1,13 +1,13 @@
 module Rules
-    ( isCheckmate
-    , isValidMove
+    ( 
     ) where
 
 import qualified Board
+import Pieces
 
 validMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
-validMoves g c = let b = board g
-                 in case Board.getPieceAt c b of
+validMoves g c = let b = Board.board g
+                 in case Board.getPieceAt b c of
                          Piece King _ -> kingValidMoves g c 
                          Piece Queen _ -> queenValidMoves g c
                          Piece Rook _ -> rookValidMoves g c
@@ -18,3 +18,18 @@ validMoves g c = let b = board g
 
 kingValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
 kingValidMoves = undefined
+
+queenValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+queenValidMoves = undefined
+
+rookValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+rookValidMoves = undefined
+
+bishopValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+bishopValidMoves = undefined
+
+knightValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+knightValidMoves = undefined
+
+pawnValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+pawnValidMoves = undefined
