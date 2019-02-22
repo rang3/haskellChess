@@ -2,7 +2,7 @@
 ### Getting Started
 1. Install the Haskell Tool Stack (click [here](https://docs.haskellstack.org/en/stable/README/#how-to-install) for instructions)
 2. `stack setup` - Installs a local stack based on the version in the yaml so we can have reproducible builds 🙂
-3. `stack build` - Builds the project
+3. `stack build` - Builds the project (this needs to be run after every code change)
 4. `stack exec haskellChess-exe` - Runs the game
 
 #### Other Commands
