@@ -5,7 +5,7 @@ module Pieces
     , switchColor
     ) where
 
-import Data.Char
+import qualified Data.Char as Char
 
 data Color = White | Black
     deriving (Eq, Show)
@@ -27,7 +27,7 @@ instance Show PieceType where
 instance Show Piece where
     show NoPiece = "."
     show (Piece t White) = show t
-    show (Piece t Black) = fmap toLower $ show t
+    show (Piece t Black) = fmap Char.toLower $ show t
 
 switchColor :: Color -> Color
 switchColor White = Black

@@ -9,9 +9,11 @@ module Board
     , executeMove
     ) where
 
-import Pieces
-import Control.Monad.State.Lazy
-import Data.Char (ord, chr)
+import qualified Pieces as P
+import           Pieces (Color(..), Piece(..), PieceType(..))
+
+import           Control.Monad.State.Lazy (State, get, put, execState)
+import           Data.Char (ord, chr)
 
 newtype Board = Board { grid :: [[Piece]] }
     deriving Eq
@@ -97,7 +99,7 @@ executeMove m = do currentState <- get
                    let currentBoard = board currentState
                    let nextBoard = execState (movePiece m) currentBoard
                    put currentState {    moveHistory = (m : oldMoveHistory)
-                                       , turn = switchColor $ turn currentState
+                                       , turn = P.switchColor $ turn currentState
                                        , board = execState (movePiece m) $ board currentState
                                     }
 
