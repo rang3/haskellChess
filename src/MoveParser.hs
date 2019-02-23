@@ -2,8 +2,9 @@ module MoveParser
     ( parseMove
     ) where
 
-import Board
-import Text.Read
+import           Board (Coordinate(..), Move(..))
+
+import qualified Text.Read as R
 
 parseMove :: String -> Maybe Move
 parseMove [f1,r1,'-',f2,r2] = let mc1 = parseCoordinate [f1,r1]
@@ -40,7 +41,7 @@ letterToNumber 'h' = 7
 letterToNumber _   = -1
 
 parseRank :: Char -> Int
-parseRank c = let r = (readMaybe [c] :: Maybe Int)
+parseRank c = let r = (R.readMaybe [c] :: Maybe Int)
     in case r of
         Just ri -> ri - 1
         otherwise -> -1

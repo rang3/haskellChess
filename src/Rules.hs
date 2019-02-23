@@ -2,12 +2,13 @@ module Rules
     ( 
     ) where
 
-import qualified Board
-import Pieces
+import qualified Board as B
+import           Board (Game, Move, Coordinate)
+import           Pieces (Piece(..), PieceType(..), Color(..))
 
-validMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
-validMoves g c = let b = Board.board g
-                 in case Board.getPieceAt b c of
+validMoves :: Game -> Coordinate -> [Move]
+validMoves g c = let b = B.board g
+                 in case B.getPieceAt b c of
                          Piece King _ -> kingValidMoves g c 
                          Piece Queen _ -> queenValidMoves g c
                          Piece Rook _ -> rookValidMoves g c
@@ -16,20 +17,20 @@ validMoves g c = let b = Board.board g
                          Piece Pawn _ -> pawnValidMoves g c
                          NoPiece -> []
 
-kingValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+kingValidMoves :: Game -> Coordinate -> [Move]
 kingValidMoves = undefined
 
-queenValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+queenValidMoves :: Game -> Coordinate -> [Move]
 queenValidMoves = undefined
 
-rookValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+rookValidMoves :: Game -> Coordinate -> [Move]
 rookValidMoves = undefined
 
-bishopValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+bishopValidMoves :: Game -> Coordinate -> [Move]
 bishopValidMoves = undefined
 
-knightValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+knightValidMoves :: Game -> Coordinate -> [Move]
 knightValidMoves = undefined
 
-pawnValidMoves :: Board.Game -> Board.Coordinate -> [Board.Move]
+pawnValidMoves :: Game -> Coordinate -> [Move]
 pawnValidMoves = undefined
