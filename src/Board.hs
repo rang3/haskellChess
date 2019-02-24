@@ -1,18 +1,19 @@
 module Board
     ( Board(..)
     , Move(..)
-    , Game(..)
     , Coordinate(..)
-    , getPieceAt
-    , initialGame
     , initialBoard
-    , executeMove
+    , movePiece
+    , putPiece
+    , getPiece
+    , pieceAt
     ) where
 
 import qualified Pieces as P
 import           Pieces (Color(..), Piece(..), PieceType(..))
 
-import           Control.Monad.State.Lazy (State, get, put, execState)
+import qualified Control.Monad.State.Lazy as S
+import           Control.Monad.State.Lazy (State)
 import           Data.Char (ord, chr)
 
 newtype Board = Board { grid :: [[Piece]] }
@@ -22,13 +23,6 @@ instance Show Board where
     show b = '\n' : (concat $ fmap showRow $ grid b)
         where showRow [] = "\n"
               showRow (p:r) = show p ++ showRow r
-
-data Game = StandardGame
-    { board         :: Board
-    , turn          :: Color
-    , moveHistory   :: [Move]
-    }
-    deriving (Eq, Show)
 
 data Move = Move Coordinate Coordinate
     deriving (Eq)
@@ -70,52 +64,31 @@ initialGrid = [[br,bn,bb,bq,bk,bb,bn,br]
 initialBoard :: Board
 initialBoard = Board initialGrid
 
-initialGame :: Game
-initialGame = StandardGame
-    { board       = initialBoard
-    , turn        = White
-    , moveHistory = []
-    }
-
---edit for array
-getPieceAt :: Board -> Coordinate -> Piece
-getPieceAt (Board g) (Coordinate f r) =
+pieceAt :: Board -> Coordinate -> Piece
+pieceAt (Board g) (Coordinate f r) =
     (g !! (7 - r)) !! f
 
---edit for array
-setPiece :: Board -> Piece -> Coordinate -> Board
-setPiece (Board g) p (Coordinate f r) =
+updateBoard :: Board -> Piece -> Coordinate -> Board
+updateBoard (Board g) p (Coordinate f r) =
     Board $ editList g (7-r) row
         where row = editList (g !! (7-r)) f p
 
---remove for array
 editList :: [a] -> Int -> a -> [a]
 editList xs idx elem = take idx xs ++ [elem] ++ drop (idx + 1) xs
 
-
-executeMove :: Move -> State Game ()
-executeMove m = do currentState <- get
-                   let oldMoveHistory = moveHistory currentState
-                   let currentBoard = board currentState
-                   let nextBoard = execState (movePiece m) currentBoard
-                   put currentState {    moveHistory = (m : oldMoveHistory)
-                                       , turn = P.switchColor $ turn currentState
-                                       , board = execState (movePiece m) $ board currentState
-                                    }
-
---edit for array
 movePiece :: Move -> State Board ()
 movePiece (Move c1 c2) =
-    do currBoard <- get
-       let currPiece = getPieceAt currBoard c1
-       setSquare c1 na
-       setSquare c2 currPiece
+    do currBoard <- S.get
+       let currPiece = pieceAt currBoard c1
+       S.when (currPiece /= na) $ do putPiece c1 na
+                                     putPiece c2 currPiece
 
---edit for array
-setSquare :: Coordinate -> Piece -> State Board ()
-setSquare c p =
-    do board <- get
-       put $ setPiece board p c
+putPiece :: Coordinate -> Piece -> State Board ()
+putPiece c p =
+    do board <- S.get
+       S.put $ updateBoard board p c
 
---TODO
---use vector or array for grid representation
+getPiece :: Coordinate -> State Board Piece
+getPiece c =
+    do board <- S.get
+       return $ pieceAt board c
