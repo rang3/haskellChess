@@ -3,12 +3,15 @@ module Rules
     ) where
 
 import qualified Board as B
-import           Board (Game, Move, Coordinate)
+import           Board (Move, Coordinate)
+import qualified Game as G
+import           Game (Game(..))
 import           Pieces (Piece(..), PieceType(..), Color(..))
 
+-- maybe use state transformer instead of B.pieceAt
 validMoves :: Game -> Coordinate -> [Move]
-validMoves g c = let b = B.board g
-                 in case B.getPieceAt b c of
+validMoves g c = let b = G.board g
+                 in case B.pieceAt b c of
                          Piece King _ -> kingValidMoves g c 
                          Piece Queen _ -> queenValidMoves g c
                          Piece Rook _ -> rookValidMoves g c
