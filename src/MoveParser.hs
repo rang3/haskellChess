@@ -2,9 +2,15 @@ module MoveParser
     ( parseMove
     ) where
 
-import           Board (Coordinate(..), Move(..))
+import           Moves ( Coordinate( Coordinate )
+                       , Move( Move )
+                       )
 
 import qualified Text.Read as R
+
+{-| Not even sure we need this file
+ -  maybe we can merge it with Moves.hs
+ -}
 
 parseMove :: String -> Maybe Move
 parseMove [f1,r1,'-',f2,r2] = let mc1 = parseCoordinate [f1,r1]
@@ -29,6 +35,7 @@ validFileOrRank i
 parseFile :: Char -> Int
 parseFile c = letterToNumber c
 
+-- TODO: refactor this
 letterToNumber :: Char -> Int
 letterToNumber 'a' = 0
 letterToNumber 'b' = 1
