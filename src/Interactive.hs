@@ -2,13 +2,16 @@ module Interactive
     ( interactiveMain
     ) where
 
+import           Options ( Options )
+
 import           System.Exit ( ExitCode (ExitFailure, ExitSuccess) 
                              , exitWith 
                              )
 
-interactiveMain :: IO ()
-interactiveMain = do putStrLn "interactive mode"
-                     exitWith ExitSuccess
+interactiveMain :: Options -> IO ()
+interactiveMain opts = do 
+    putStrLn "interactive mode"
+    exitWith ExitSuccess
                      
 -- TODO: rewrite the gameloop using the hackage chess library
 --loop :: Game -> IO ()

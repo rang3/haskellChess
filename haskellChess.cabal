@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c59e1d66c298aaf4126272c1c4008576910993a107d138aeb12280339587579d
+-- hash: d0701cc9bd37f4af8f2c22a7697747117c3736516ed15063573b26cdda857962
 
 name:           haskellChess
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Game
       Interactive
       MoveParser
+      Options
       Pieces
       Rules
       Uci

@@ -2,6 +2,7 @@ module Main where
 
 import           Interactive ( interactiveMain )
 import           Uci ( uciMain )
+import qualified Options as O
 
 import qualified Chess as C
 import qualified Chess.FEN as Fen
@@ -26,53 +27,22 @@ import           System.IO ( hPutStrLn
                            , stderr
                            , stdin
                            )
-import qualified Text.Read as R
 
 main :: IO ()
 main = do
     argv <- getArgs
     parse argv
     
-parse argv = case getOpt Permute options argv of
+parse argv = case getOpt Permute O.options argv of
 
     (actions,nonOptions,[]) -> do
-        opts <- foldl (>>=) (return startOptions) actions
-        if optInteractiveColor opts == Nothing
-            then uciMain
-            else interactiveMain
+        opts <- foldl (>>=) (return O.startOptions) actions
+        if O.optInteractiveColor opts == Nothing
+            then uciMain opts
+            else interactiveMain opts
 
     (_,_,errors)  -> do
-        hPutStrLn stderr (concat errors ++ usageInfo header options)
+        hPutStrLn stderr (concat errors ++ usageInfo header O.options)
         exitWith (ExitFailure 1)
 
-    where header = "Usage: cat [-benstuv] [file ...]"
-
-data Options = Options { optInteractiveColor :: Maybe C.Color
-                       }
-
-startOptions :: Options
-startOptions = Options { optInteractiveColor = Nothing
-                       }
-
-options = 
-    [ Option ['i'] ["interactive"] 
-        ( ReqArg 
-            ( \arg opt -> case arg of
-                            "white" -> return Options { optInteractiveColor 
-                                = Just C.White }
-                            "black" -> return Options { optInteractiveColor 
-                                = Just C.Black }
-                            _       -> do hPutStrLn stderr "not a valid color"
-                                          exitWith $ ExitFailure 1
-            )
-            "COLOR"
-        )
-        "Allows the user to input a file."
-    , Option ['h'] ["help"] 
-        ( NoArg 
-            ( \_ -> do hPutStrLn stderr (usageInfo "haskellChess" options)
-                       exitWith ExitSuccess
-            )
-        )
-        "print help"
-    ]
+    where header = "Usage: haskellChess-exe [-ih] "
