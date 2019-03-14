@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ddf5046623f0b792b69dfe6689f69dae077f877498b7c292a00b3d9e0adb7d39
+-- hash: c59e1d66c298aaf4126272c1c4008576910993a107d138aeb12280339587579d
 
 name:           haskellChess
 version:        0.1.0.0
@@ -29,15 +29,18 @@ library
   exposed-modules:
       Board
       Game
+      Interactive
       MoveParser
       Pieces
       Rules
+      Uci
   other-modules:
       Paths_haskellChess
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , chesshs ==0.2.1
     , mtl
   default-language: Haskell2010
 
@@ -50,6 +53,7 @@ executable haskellChess-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , chesshs ==0.2.1
     , haskellChess
     , mtl
   default-language: Haskell2010
@@ -64,6 +68,7 @@ test-suite haskellChess-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , chesshs ==0.2.1
     , haskellChess
     , mtl
   default-language: Haskell2010
