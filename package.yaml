@@ -48,3 +48,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - haskellChess
+    - hspec-discover >= 2.6 && < 3
+    - hspec >= 2.6 && < 3
