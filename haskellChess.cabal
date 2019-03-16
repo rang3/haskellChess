@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9a7bbfe7ba439e7542a2ba2240db158358c3c6db39ee9853b16ca6e158d5f7a2
+-- hash: e0220910287cc452c3ca49fb707baa74669c4ec43d03db7941162a93275c8985
 
 name:           haskellChess
 version:        0.1.0.0
@@ -39,6 +39,7 @@ library
   build-depends:
       base >=4.7 && <5
     , chesshs ==0.2.1
+    , containers
     , mtl
   default-language: Haskell2010
 
@@ -52,6 +53,7 @@ executable haskellChess-exe
   build-depends:
       base >=4.7 && <5
     , chesshs ==0.2.1
+    , containers
     , haskellChess
     , mtl
   default-language: Haskell2010
@@ -68,6 +70,7 @@ test-suite haskellChess-test
   build-depends:
       base >=4.7 && <5
     , chesshs ==0.2.1
+    , containers
     , haskellChess
     , hspec >=2.6 && <3
     , hspec-discover >=2.6 && <3
