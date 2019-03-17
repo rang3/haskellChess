@@ -3,6 +3,7 @@ module Moves
     , Move ( Move ) 
     , nextGameStates
     , possibleMoves
+    , strToCoordinate
     ) where
 
 import qualified Chess as C
@@ -25,6 +26,10 @@ instance Show Coordinate where
 
 instance Ord Coordinate where
     compare c1 c2 = compare (show c1) (show c2)
+
+strToCoordinate :: String -> Coordinate
+strToCoordinate s = let (f, r) = C.strToPos s
+                     in Coordinate f r
 
 nextGameStates = undefined
 
@@ -53,6 +58,7 @@ possibleMovesForBishop = undefined
 possibleMovesForKnight :: Coordinate -> [Coordinate]
 possibleMovesForKnight = undefined
 
+-- pawn promotion is not handled here
 possibleMovesForPawn :: Coordinate -> [Coordinate]
 possibleMovesForPawn = undefined
 
