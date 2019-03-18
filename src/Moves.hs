@@ -47,10 +47,12 @@ possibleMovesForKing (Coordinate f r) = tail
     [Coordinate f' r' | f' <- [f,f+1,f-1], r' <- [r, r+1, r-1], validSquare f' r']
 
 possibleMovesForQueen :: Coordinate -> [Coordinate]
-possibleMovesForQueen = undefined
+possibleMovesForQueen c1 = possibleMovesForRook c1 ++ possibleMovesForBishop c1
 
 possibleMovesForRook :: Coordinate -> [Coordinate]
-possibleMovesForRook = undefined
+possibleMovesForRook (Coordinate f r ) = 
+    [Coordinate f r' | r' <- [0..7], r' /= r]
+    ++ [Coordinate f' r | f' <- [0..7], f' /= f]
 
 possibleMovesForBishop :: Coordinate -> [Coordinate]
 possibleMovesForBishop = undefined
