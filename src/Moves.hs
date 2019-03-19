@@ -7,7 +7,10 @@ module Moves
     ) where
 
 import qualified Chess as C
+import qualified Chess.FEN as FEN
 import           Data.Char (ord, chr)
+import           Data.Either (rights)
+import           Data.Maybe (catMaybes)
 import qualified Text.Read as R
 
 data Move = Move Coordinate Coordinate
@@ -31,7 +34,21 @@ strToCoordinate :: String -> Coordinate
 strToCoordinate s = let (f, r) = C.strToPos s
                      in Coordinate f r
 
-nextGameStates = undefined
+nextGameStates :: C.Board -> [C.Board]
+nextGameStates b =  rights $ map (\s -> C.move s b) (allPossibleMovesForColor b)
+
+allPossibleMovesForColor :: C.Board -> [String]
+allPossibleMovesForColor b = concat $ map 
+    (\(p,c) -> possibleMoves p c) 
+    (catMaybes $ allPiecesForColor b)
+
+allPiecesForColor :: C.Board -> [Maybe (C.Piece, Coordinate)]
+allPiecesForColor board = map
+    ( \coord@(Coordinate f r) -> case C.pieceAt f r board of
+         Just p -> Just (p, coord)
+         _      -> Nothing
+    )
+    [Coordinate f r | f <- [0..7], r <- [0..7]]
 
 possibleMoves :: C.Piece -> Coordinate -> [String]
 possibleMoves piece coordinate = case piece of 
@@ -77,7 +94,7 @@ possibleMovesForWhitePawn c@(Coordinate f r) = case r of
     6 -> [m ++ p | m <- movesNoJump, p <- ["q","r","b","n"]] -- promotion
     _ -> movesNoJump
     where movesNoJump = [show c ++ show (Coordinate f' (r+1))
-                            | f' <- [f, f+1, f-1]]
+                            | f' <- [f, f+1, f-1], validSquare f' (r+1)]
 
 possibleMovesForBlackPawn :: Coordinate -> [String]
 possibleMovesForBlackPawn c@(Coordinate f r) = case r of
@@ -85,7 +102,7 @@ possibleMovesForBlackPawn c@(Coordinate f r) = case r of
     6 -> (show c ++ show (Coordinate f (r-2))):movesNoJump -- starting jump
     _ -> movesNoJump
     where movesNoJump = [show c ++ show (Coordinate f' (r-1))
-                            | f' <- [f, f+1, f-1]]
+                            | f' <- [f, f+1, f-1], validSquare f' (r-1)]
 
 validSquare :: Int -> Int -> Bool
 validSquare f r = f >= 0 && f < 8 && r >= 0 && r < 8

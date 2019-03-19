@@ -3,6 +3,8 @@ module MovesSpec where
 import           Moves
 
 import qualified Chess as C
+import qualified Chess.FEN as FEN
+import           Data.Maybe (fromJust)
 import qualified Data.Set as S
 import           Test.Hspec
 
@@ -205,6 +207,38 @@ spec = do
                         , "d2c1n"
                         ]
                     )
+    describe "nextGameStates" $ do
+        it "returns correct game states for start game position" $ do
+            (S.fromList $ map (FEN.toFEN) (nextGameStates initialBoard))
+                `shouldBe` (S.fromList boardsAfterFirstMoves)
+
+initialBoard :: C.Board
+initialBoard = fromJust $ FEN.fromFEN 
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
+boardsAfterFirstMoves :: [String]
+boardsAfterFirstMoves = 
+    [ "rnbqkbnr/pppppppp/8/8/P7/8/1PPPPPPP/RNBQKBNR b KQkq a3"
+    ,"rnbqkbnr/pppppppp/8/8/1P6/8/P1PPPPPP/RNBQKBNR b KQkq b3"
+    ,"rnbqkbnr/pppppppp/8/8/2P5/8/PP1PPPPP/RNBQKBNR b KQkq c3"
+    ,"rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3"
+    ,"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3"
+    ,"rnbqkbnr/pppppppp/8/8/5P2/8/PPPPP1PP/RNBQKBNR b KQkq f3"
+    ,"rnbqkbnr/pppppppp/8/8/6P1/8/PPPPPP1P/RNBQKBNR b KQkq g3"
+    ,"rnbqkbnr/pppppppp/8/8/7P/8/PPPPPPP1/RNBQKBNR b KQkq h3"
+    ,"rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/1P6/P1PPPPPP/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/2P5/PP1PPPPP/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/3P4/PPP1PPPP/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/4P3/PPPP1PPP/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/6P1/PPPPPP1P/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/N7/PPPPPPPP/R1BQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/7N/PPPPPPPP/RNBQKB1R b KQkq -"
+    ,"rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq -"
+    ]
 
 whiteKing :: C.Piece
 whiteKing = C.Piece C.White C.King
