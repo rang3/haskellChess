@@ -16,3 +16,4 @@ spec = do
 whiteWins :: C.Board
 whiteWins = fromJust $ FEN.fromFEN
     "8/6Qk/p7/P5R1/8/3P1b1P/P4P1P/5RK1 b - - 1 38"
+
