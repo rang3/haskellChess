@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e0220910287cc452c3ca49fb707baa74669c4ec43d03db7941162a93275c8985
+-- hash: 3ddbcf577f23109d5a7bd596a534c351aaa9c8b5d577ada95d776f444f086966
 
 name:           haskellChess
 version:        0.1.0.0
@@ -27,8 +27,9 @@ source-repository head
 
 library
   exposed-modules:
+      Eval
+      GameTree
       Interactive
-      MoveParser
       Moves
       Options
       Uci
@@ -62,6 +63,7 @@ test-suite haskellChess-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      EvalSpec
       MovesSpec
       Paths_haskellChess
   hs-source-dirs:

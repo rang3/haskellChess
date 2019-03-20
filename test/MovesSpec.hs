@@ -8,8 +8,6 @@ import           Data.Maybe (fromJust)
 import qualified Data.Set as S
 import           Test.Hspec
 
--- sample failing test
--- TODO: add real tests
 spec :: Spec
 spec = do
     describe "possibleMoves" $ do
