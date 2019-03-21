@@ -9,7 +9,6 @@ module Moves
 import qualified Chess as C
 import qualified Chess.FEN as FEN
 import           Data.Char (ord, chr)
-import           Data.Either (rights)
 import           Data.Maybe (catMaybes)
 import qualified Text.Read as R
 
@@ -34,8 +33,13 @@ strToCoordinate :: String -> Coordinate
 strToCoordinate s = let (f, r) = C.strToPos s
                      in Coordinate f r
 
-nextGameStates :: C.Board -> [C.Board]
-nextGameStates b =  rights $ map (\s -> C.move s b) (allPossibleMovesForColor b)
+nextGameStates :: C.Board -> [(String, C.Board)]
+nextGameStates b =  catMaybes $ map 
+    (\s -> case C.move s b of 
+        Right n -> Just (s, n)
+        Left _ -> Nothing 
+    ) 
+    (allPossibleMovesForColor b)
 
 allPossibleMovesForColor :: C.Board -> [String]
 allPossibleMovesForColor b = concat $ map 

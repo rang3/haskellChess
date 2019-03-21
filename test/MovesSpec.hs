@@ -207,7 +207,7 @@ spec = do
                     )
     describe "nextGameStates" $ do
         it "returns correct game states for start game position" $ do
-            (S.fromList $ map (FEN.toFEN) (nextGameStates initialBoard))
+            (S.fromList $ map (\(s,b) -> FEN.toFEN b) (nextGameStates initialBoard))
                 `shouldBe` (S.fromList boardsAfterFirstMoves)
 
 initialBoard :: C.Board
