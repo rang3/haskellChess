@@ -1,6 +1,10 @@
 module Eval
     ( eval
+    , sigmoid
+    , score
     ) where
+
+import           Moves ( nextGameStates ) 
 
 import qualified Chess as C
 import           Data.Maybe ( catMaybes )
@@ -8,12 +12,12 @@ import           Data.Maybe ( catMaybes )
 eval :: C.Board -> Float
 eval b | C.mate C.White b = -1
        | C.mate C.Black b = 1
-       | C.stalemate C.Black b = 0
-       | C.stalemate C.White b = 0
+       | nextGameStates b == [] && C.stalemate color b = 0
        | otherwise      = sigmoid $ score b
+    where color = C.turn b
 
 sigmoid :: Float -> Float
-sigmoid x = (exp x) / ((exp x) + 1)
+sigmoid x = x / (sqrt (1 + x^2))
 
 score :: C.Board -> Float
 score b = 1.0 * (materialScore b)

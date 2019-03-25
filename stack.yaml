@@ -3,4 +3,5 @@ packages:
 - .
 extra-deps:
 - chesshs-0.2.1
+- list-extras-0.4.1.4
 resolver: lts-13.6

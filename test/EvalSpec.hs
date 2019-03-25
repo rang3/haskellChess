@@ -1,6 +1,6 @@
 module EvalSpec where
 
-import Eval
+import           Eval
 
 import qualified Chess as C
 import qualified Chess.FEN as FEN
