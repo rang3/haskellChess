@@ -1,2 +1,8 @@
 forced mate in 5 plies
 "5rk1/2q2p1p/8/p3R3/1pr5/4Q3/PP4PP/R5K1 w - -"
+
+middle game
+"r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQ1RK1 w - -"
+
+initial game
+"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
